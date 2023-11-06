@@ -3,6 +3,7 @@
 
 from sys import *
 from csv import *
+
 def main(file):
     # First open file and interpret tree
     # Note: list[1] = link to u, list[2] = link to v, list[3] = link to w, etc.
@@ -37,6 +38,40 @@ def main(file):
     
     
     pass
+
+def compute_distance_vectors(topology):
+    # Initialize distance vector for each node and set cost to infinity
+    distance_vectors = {node: {neighbor: 9999 for neighbor in topology} for node in topology}
+    
+    # Set up direct links in distance vectors
+    for node in topology:
+        for neighbor in topology[node]:
+            distance_vectors[node][neighbor] = topology[node][neighbor]
+
+
+    # We will use this to determine when to stop looking for shortest path
+    max_paths = 10
+
+    # Loop through each node and calculate distance vector
+    for node in topology:
+        # Create vector
+        distance_vector = [0] * len(topology)
+
+
+        # Calculate lowest cost path to each node
+        for node in topology:
+        
+            neighborNodes = []
+
+
+            for neighborNode in topology[node]:
+                for dest in topology:
+                    pass
+
+        # Once distance vector is calculated for node, print
+        print("Distance vector for node u: " + distance_vector)
+    pass
+
 
 if __name__ == "__main__":
     # Take topography file name and pass to main
