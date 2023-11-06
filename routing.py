@@ -15,7 +15,7 @@ def main(top_file):
         
         # give each node a header for identification
         for header in node_headers:
-            link_values[header] = []
+            link_values[header] = {col: 0 for col in node_headers}
             
         for row in csv_reader:
             # Give an identifier for each node
@@ -25,7 +25,7 @@ def main(top_file):
             
             # Put that all into the dictionary link_values
             for i, header in enumerate(node_headers):
-                link_values[header].append(values[i])
+                link_values[header][node_headers[i]] = values[i]
                 
         if DEBUG == True:            
             print("Headers:", node_headers)
