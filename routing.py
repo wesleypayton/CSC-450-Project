@@ -1,30 +1,39 @@
 # Names: Elijah Payton, Gregory Whitehurst
 # Description: CSC450 Project
-
+DEBUG = True
 from sys import *
 from csv import *
-def main(file):
+def main(top_file):
     # First open file and interpret tree
     # Note: link ordering is u, v, w, x, y, z
-    top_file = file
-    [u_links, v_links, w_links, x_links, y_links, z_links] = [[],[],[],[],[],[]]
+    
+    link_values = {}
     with open(top_file, newline = '') as csvfile:
+        
         csv_reader = reader(csvfile)
-        exclude_col = True
-        for row in csv_reader:
-            # First run is to give identifier for each node
-            if exclude_col == True:
-                '''[u_node, v_node, w_node, x_node, y_node, z_node] = [row[1], row[2], row[3], row[4], row[5], row[6]]
-                [u_links.append(u_node), v_links.append(v_node), w_links.append(w_node), x_links.append(x_node), y_links.append(y_node), z_links.append(z_node)]'''
-                exclude_col = False
-            else:
-                [u_node, v_node, w_node, x_node, y_node, z_node] = [int(row[1]), int(row[2]), int(row[3]), int(row[4]), int(row[5]), int(row[6])]
-                [u_links.append(u_node), v_links.append(v_node), w_links.append(w_node), x_links.append(x_node), y_links.append(y_node), z_links.append(z_node)]      
+        node_headers = next(csv_reader)[1:]
+        
+        # give each node a header for identification
+        for header in node_headers:
+            link_values[header] = []
             
-    #print([u_links, v_links, w_links, x_links, y_links, z_links])
-    links = {"u":u_links, "v":v_links, "w":u_links, "x":u_links, "y":u_links, "z":u_links}
-    print(links)
-    # Now take input for source node
+        for row in csv_reader:
+            # Give an identifier for each node
+            identifier = row[0]
+            # List of link values for that node
+            values = [int(value) for value in row[1:]]
+            
+            # Put that all into the dictionary link_values
+            for i, header in enumerate(node_headers):
+                link_values[header].append(values[i])
+                
+        if DEBUG == True:            
+            print("Headers:", node_headers)
+            
+    if DEBUG == True:        
+        for header, col_data in link_values.items():
+            print(f"Column '{header}':", col_data)
+    
     n_prime = input("Please provide the source node: ")
 
 
