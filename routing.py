@@ -25,7 +25,7 @@ def main(top_file):
             
             # Put that all into the dictionary link_values
             for i, header in enumerate(node_headers):
-                link_values[header][node_headers[i]] = values[i]
+                link_values[header][identifier] = values[i]
                 
         if DEBUG == True:            
             print("Headers:", node_headers)
