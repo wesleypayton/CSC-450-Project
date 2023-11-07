@@ -1,30 +1,42 @@
 # Names: Elijah Payton, Gregory Whitehurst
 # Description: CSC450 Project
-
+DEBUG = True
 from sys import *
 from csv import *
-
-def main(file):
+def main(top_file):
     # First open file and interpret tree
-    # Note: list[1] = link to u, list[2] = link to v, list[3] = link to w, etc.
-    top_file = file
-    [u_links, v_links, w_links, x_links, y_links, z_links] = [[],[],[],[],[],[]]
-    with open(top_file, newline = '') as csvfile:
-        csv_reader = reader(csvfile)
-        first_run = True
-        for row in csv_reader:
-            if first_run == True:
-                [u_node, v_node, w_node, x_node, y_node, z_node] = [row[1], row[2], row[3], row[4], row[5], row[6]]
-                [u_links.append(u_node), v_links.append(v_node), w_links.append(w_node), x_links.append(x_node), y_links.append(y_node), z_links.append(z_node)]
-                first_run = False
-            else:
-                [u_node, v_node, w_node, x_node, y_node, z_node] = [int(row[1]), int(row[2]), int(row[3]), int(row[4]), int(row[5]), int(row[6])]
-                [u_links.append(u_node), v_links.append(v_node), w_links.append(w_node), x_links.append(x_node), y_links.append(y_node), z_links.append(z_node)]      
-            
-    print([u_links, v_links, w_links, x_links, y_links, z_links])
-
-    # Now take input for source node
+    # Note: link ordering is u, v, w, x, y, z
     
+    link_values = {}
+    with open(top_file, newline = '') as csvfile:
+        
+        csv_reader = reader(csvfile)
+        node_headers = next(csv_reader)[1:]
+        
+        # give each node a header for identification
+        for header in node_headers:
+            link_values[header] = {col: 0 for col in node_headers}
+            
+        for row in csv_reader:
+            # Give an identifier for each node
+            identifier = row[0]
+            # List of link values for that node
+            values = [int(value) for value in row[1:]]
+            
+            # Put that all into the dictionary link_values
+            for i, header in enumerate(node_headers):
+                link_values[header][identifier] = values[i]
+                
+        if DEBUG == True:            
+            print("Headers:", node_headers)
+            
+    if DEBUG == True:        
+        for header, col_data in link_values.items():
+            print(f"Column '{header}':", col_data)
+    
+    topology = {neighbor : link_values[neighbor] for neighbor in link_values}
+
+    n_prime = input("Please provide the source node: ")
 
 
     # Use Dijkstra's algorithm to find shortest path tree
@@ -34,7 +46,7 @@ def main(file):
 
     # Now calculate distance vector for each node in the
     #  network using distance-vector algorithm (Calculate using Bellman-Ford equation)
-
+    compute_distance_vectors(topology)
     
     
     pass
