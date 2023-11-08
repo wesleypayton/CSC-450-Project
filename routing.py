@@ -60,29 +60,37 @@ def compute_distance_vectors(topology):
         for neighbor in topology[node]:
             distance_vectors[node][neighbor] = topology[node][neighbor]
 
+    # Set max number of loops to prevent routing loops
+    max_loops = len(topology)
 
-    # We will use this to determine when to stop looking for shortest path
-    max_paths = 10
+    # Iterate through each node in the network
+    for startNode in topology:
 
-    # Loop through each node and calculate distance vector
-    for node in topology:
-        # Create vector
-        distance_vector = [0] * len(topology)
+        for loop in range(max_loops):
+            updated = False # Flag to track if any update has occurred during this loop
+
+            # Loop through all target nodes in the network
+            for node in topology:
+                # Loop through the neighbors of the current node
+                for neighbor in topology[node]:
+                    # Loop through all possible destinations (nodes)
+                    for dest in topology:
+                        # Calculate the potential cost to reach the destination
+                        potential_cost = distance_vectors[node][neighbor] + distance_vectors[neighbor][dest]
+                        # If the calculated cost is less than the current known cost to the destination
+                        # update distance vector cost and mark updated
+                        if potential_cost < distance_vectors[node][dest]:
+                            distance_vectors[node][dest] = potential_cost
+                            updated = True
+            
+            # If no updates were made during this loop, exit the loop early
+            if not updated:
+                break
 
 
-        # Calculate lowest cost path to each node
-        for node in topology:
-        
-            neighborNodes = []
-
-
-            for neighborNode in topology[node]:
-                for dest in topology:
-                    pass
-
-        # Once distance vector is calculated for node, print
-        print("Distance vector for node u: " + distance_vector)
-    pass
+    # Once distance vector are calculated for each node, print
+    for node in distance_vectors:
+        print(distance_vectors[node])
 
 
 if __name__ == "__main__":
