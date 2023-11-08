@@ -34,23 +34,73 @@ def main(top_file):
         for header, col_data in link_values.items():
             print(f"Column '{header}':", col_data)
     
+    # Format topology from csv
     topology = {neighbor : link_values[neighbor] for neighbor in link_values}
 
-    n_prime = input("Please provide the source node: ")
-
+    # Ask for source node
+    source_node = input("Please provide the source node: ")
 
     # Use Dijkstra's algorithm to find shortest path tree
     #  and cost of least-cost paths for this node
-
-
+    dijkstra_algorithm(topology, source_node)
 
     # Now calculate distance vector for each node in the
     #  network using distance-vector algorithm (Calculate using Bellman-Ford equation)
     compute_distance_vectors(topology)
-    
-    
-    pass
 
+
+
+# This function calculates shortest path tree and lowest cost path to each 
+# other node using dijkstra's routing algorithm
+def dijkstra_algorithm(topology, source_node):
+    # Initialize data structures
+    shortest_path_tree = {node: [] for node in topology}
+    costs = {node: 9999 for node in topology}  # To store the costs to reach each node
+    visited = set()  # To keep track of visited nodes
+
+    # Initialize the source node's cost to zero
+    costs[source_node] = 0
+
+    # Main Dijkstra's algorithm loop
+    while len(visited) < len(topology):
+        # Find the node with the minimum cost that has not been visited
+        min_node = None
+        min_cost = 9999
+        for node in topology:
+            if node not in visited and costs[node] < min_cost:
+                min_node = node
+                min_cost = costs[node]
+
+        # If no reachable unvisited nodes are left, break the loop
+        if min_node is None:
+            break
+
+        # Mark the node as visited
+        visited.add(min_node)
+
+        # Update costs and shortest path tree for neighboring nodes
+        for neighbor, cost in topology[min_node].items():
+            if costs[min_node] + cost < costs[neighbor]:
+                costs[neighbor] = costs[min_node] + cost
+                shortest_path_tree[neighbor] = shortest_path_tree[min_node] + [min_node]
+
+    # Print the shortest path tree
+    print(f"Shortest path tree for node {source_node}:")
+    for node, path in shortest_path_tree.items():
+        if node != source_node:
+            path.append(node)
+            path_str = "".join(path)
+            print(f"{node}:{path_str}")
+
+    # Print the costs of the least-cost paths
+    print(f"Costs of the least-cost paths for node {source_node}:")
+    for node, cost in costs.items():
+        print(f"{node}:{cost}")
+
+
+
+# This function loops through each node and calculates lowest cost path to each 
+# other node using distance-vector algorithm
 def compute_distance_vectors(topology):
     # Initialize distance vector for each node and set cost to infinity
     distance_vectors = {node: {neighbor: 9999 for neighbor in topology} for node in topology}
