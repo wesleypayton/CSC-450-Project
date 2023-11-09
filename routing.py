@@ -164,3 +164,9 @@ def compute_distance_vectors(topology):
 if __name__ == "__main__":
     # Take topography file name and pass to main
     main(argv[1])
+    
+# SOURCES:
+#   ChatGPT: CSV library documentation, help referenceing data from a dictionary containing dictionaries, pseudo code for dijkstra's to get a general idea
+#            of what to do since our network topology has a data type that's a little more complicated than desired
+#   Geeks4Geeks: Print formatting for the shortest path trees
+#
