@@ -44,6 +44,9 @@ def main(top_file):
 
     # Ask for source node
     source_node = input("Please provide the source node: ")
+    if source_node not in topology.keys():
+        print("Node not in topology, exiting.")
+        exit(1)
 
     # Use Dijkstra's algorithm to find shortest path tree
     #  and cost of least-cost paths for this node
