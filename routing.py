@@ -90,27 +90,24 @@ def dijkstra_algorithm(topology, source_node):
                 # Update path tree for neighbor node
                 shortest_path_tree[neighbor] = shortest_path_tree[min_node] + [min_node]
 
-    # Print the shortest path tree
+    # Format shortest path tree
     shortest_path_tree_strings = []
-    print(f"Shortest path tree for node {source_node}:")
     for node, path in shortest_path_tree.items():
         if node != source_node:
             path_str = "".join(path)
             shortest_path_tree_strings.append(f"{path_str}{node}")
-
-    # Format shortest path tree
     shortest_path_tree_strings.sort(key=len)
-    for path in shortest_path_tree_strings:
-        print(path + ", ", end = " ")
 
-    print()
+    # Print shortest path tree
+    print(f"Shortest path tree for node {source_node}:")
+    print(*shortest_path_tree_strings, sep = ", ")
 
     # Print the costs of the least-cost paths
-    print(f"Costs of the least-cost paths for node {source_node}:")
+    least_cost_paths = []
     for node, cost in costs.items():
-        print(f"{node}:{cost}, ", end = " ")
-    
-    print()
+        least_cost_paths.append(f"{node}:{cost}")
+    print(f"Costs of the least-cost paths for node {source_node}:")
+    print(*least_cost_paths, sep = ", ")
 
 
 
@@ -130,7 +127,7 @@ def compute_distance_vectors(topology):
 
     # Iterate through each node in the network
     for startNode in topology:
-
+        # Use max_loops to exit in case of routing loops
         for loop in range(max_loops):
             updated = False # Flag to track if any update has occurred during this loop
 
