@@ -1,6 +1,6 @@
 # Names: Elijah Payton, Gregory Whitehurst
 # Description: CSC450 Project
-DEBUG = True
+DEBUG = False
 from sys import *
 from csv import *
 def main(top_file):
@@ -53,6 +53,7 @@ def main(top_file):
 # This function calculates shortest path tree and lowest cost path to each 
 # other node using dijkstra's routing algorithm
 def dijkstra_algorithm(topology, source_node):
+    print(topology)
     # Initialize data structures
     shortest_path_tree = {node: [] for node in topology}
     costs = {node: 9999 for node in topology}  # To store the costs to reach each node
@@ -82,20 +83,29 @@ def dijkstra_algorithm(topology, source_node):
         for neighbor, cost in topology[min_node].items():
             if costs[min_node] + cost < costs[neighbor]:
                 costs[neighbor] = costs[min_node] + cost
+
                 shortest_path_tree[neighbor] = shortest_path_tree[min_node] + [min_node]
 
+    shortest_path_tree_strings = []
     # Print the shortest path tree
     print(f"Shortest path tree for node {source_node}:")
     for node, path in shortest_path_tree.items():
         if node != source_node:
-            path.append(node)
             path_str = "".join(path)
-            print(f"{node}:{path_str}")
+            shortest_path_tree_strings.append(f"{path_str}{node}")
+
+    shortest_path_tree_strings.sort(key=len)
+    for path in shortest_path_tree_strings:
+        print(path + ", ", end = " ")
+
+    print()
 
     # Print the costs of the least-cost paths
     print(f"Costs of the least-cost paths for node {source_node}:")
     for node, cost in costs.items():
-        print(f"{node}:{cost}")
+        print(f"{node}:{cost}, ", end = " ")
+    
+    print()
 
 
 
