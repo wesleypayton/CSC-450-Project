@@ -166,7 +166,6 @@ if __name__ == "__main__":
     main(argv[1])
     
 # SOURCES:
-#   ChatGPT: CSV library documentation, help referenceing data from a dictionary containing dictionaries, pseudo code for dijkstra's to get a general idea
-#            of what to do since our network topology has a data type that's a little more complicated than desired
+#   ChatGPT: CSV library documentation, help referenceing data from a dictionary containing dictionaries, 
+#            pseudo code for dijkstra's to get a general idea of layout
 #   Geeks4Geeks: Print formatting for the shortest path trees
-#
