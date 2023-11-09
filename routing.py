@@ -9,13 +9,16 @@ def main(top_file):
     # The network topology is represented as a dictionary of a dictionaries.
     # ex: {'x': {'x': 0, 'y':2, 'z': 7}, 'y': {'x': 2, 'y': 0, 'z': 1}, 'z':{'x': 7, 'y': 1, 'z': 0}}
     
+    # Initialize the dictionary for link values of each node
     link_values = {}
     with open(top_file, newline = '') as csvfile:
-        
+        # Make a reader object
         csv_reader = reader(csvfile)
+        
+        # Skip the first row of the csv file
         node_headers = next(csv_reader)[1:]
         
-        # give each node a header for identification
+        # Initialize nested dictionaries for each column
         for header in node_headers:
             link_values[header] = {col: 0 for col in node_headers}
             
