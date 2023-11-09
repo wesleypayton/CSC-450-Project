@@ -6,6 +6,8 @@ from csv import *
 def main(top_file):
     # First open file and interpret tree
     # Note: link ordering is u, v, w, x, y, z
+    # The network topology is represented as a dictionary of a dictionaries.
+    # ex: {'x': {'x': 0, 'y':2, 'z': 7}, 'y': {'x': 2, 'y': 0, 'z': 1}, 'z':{'x': 7, 'y': 1, 'z': 0}}
     
     link_values = {}
     with open(top_file, newline = '') as csvfile:
