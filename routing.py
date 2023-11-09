@@ -49,6 +49,9 @@ def main(top_file):
     #  and cost of least-cost paths for this node
     dijkstra_algorithm(topology, source_node)
 
+    # Print for formatting
+    print()
+
     # Now calculate distance vector for each node in the
     #  network using distance-vector algorithm (Calculate using Bellman-Ford equation)
     compute_distance_vectors(topology)
@@ -58,7 +61,6 @@ def main(top_file):
 # This function calculates shortest path tree and lowest cost path to each 
 # other node using dijkstra's routing algorithm
 def dijkstra_algorithm(topology, source_node):
-    print(topology)
     # Initialize data structures
     shortest_path_tree = {node: [] for node in topology}
     costs = {node: 9999 for node in topology}  # To store the costs to reach each node
@@ -88,17 +90,18 @@ def dijkstra_algorithm(topology, source_node):
         for neighbor, cost in topology[min_node].items():
             if costs[min_node] + cost < costs[neighbor]:
                 costs[neighbor] = costs[min_node] + cost
-
+                # Update path tree for neighbor node
                 shortest_path_tree[neighbor] = shortest_path_tree[min_node] + [min_node]
 
-    shortest_path_tree_strings = []
     # Print the shortest path tree
+    shortest_path_tree_strings = []
     print(f"Shortest path tree for node {source_node}:")
     for node, path in shortest_path_tree.items():
         if node != source_node:
             path_str = "".join(path)
             shortest_path_tree_strings.append(f"{path_str}{node}")
 
+    # Format shortest path tree
     shortest_path_tree_strings.sort(key=len)
     for path in shortest_path_tree_strings:
         print(path + ", ", end = " ")
@@ -152,10 +155,10 @@ def compute_distance_vectors(topology):
             if not updated:
                 break
 
-
     # Once distance vector are calculated for each node, print
     for node in distance_vectors:
-        print(distance_vectors[node])
+        print(f"Distance vector for node {node}: ", end = " ")
+        print(*distance_vectors[node].values())
 
 
 if __name__ == "__main__":
